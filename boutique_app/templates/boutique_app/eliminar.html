@@ -1,6 +1,6 @@
 {% extends 'boutique_app/base.html' %}
 
-{% block title %}Eliminar {{ prenda.nombre }} | Boutique{% endblock %}
+{% block title %}Eliminar prenda | Boutique{% endblock %}
 
 {% block content %}
 <section class="shell confirm-page">
@@ -9,14 +9,14 @@
         <p class="eyebrow">Acci&oacute;n irreversible</p>
         <h1>&iquest;Eliminar esta prenda?</h1>
         <p>
-            Vas a retirar <strong>{{ prenda.nombre }}</strong> de la colecci&oacute;n.
+            Vas a retirar <strong id="product-name">Cargando...</strong> de la colecci&oacute;n.
             Esta acci&oacute;n no se puede deshacer.
         </p>
 
         <form id="delete-product-form">
             <div class="form-actions">
                 <a class="button button-light" href="{% url 'gestion' %}">Cancelar</a>
-                <button class="button button-danger" type="submit">S&iacute;, eliminar</button>
+                <button id="delete-submit" class="button button-danger" type="submit">S&iacute;, eliminar</button>
             </div>
             <p id="delete-message" role="alert" hidden></p>
         </form>
@@ -28,22 +28,63 @@
 <script>
     (() => {
         const token = sessionStorage.getItem('authToken');
+        const productId = window.location.pathname.split('/').filter(Boolean).pop();
         const form = document.getElementById('delete-product-form');
         const message = document.getElementById('delete-message');
-        const submitButton = form.querySelector('button[type="submit"]');
+        const submitButton = document.getElementById('delete-submit');
+
+        const showError = (text) => {
+            message.textContent = text;
+            message.hidden = false;
+        };
+
+        const redirectToLogin = () => {
+            sessionStorage.removeItem('authToken');
+            sessionStorage.removeItem('authUsername');
+            window.location.replace("{% url 'login' %}");
+        };
 
         if (!token || token.trim() === '') {
-            window.location.replace("{% url 'login' %}");
+            redirectToLogin();
             return;
         }
 
-        form.addEventListener('submit', async (event) => {
+        fetch(`/api/prendas/${productId}/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${token}`,
+                'Accept': 'application/json'
+            }
+        })
+            .then(response => {
+                if (response.status === 401) {
+                    redirectToLogin();
+                    return null;
+                }
+
+                if (response.status === 404) {
+                    throw new Error('La prenda no existe.');
+                }
+
+                if (!response.ok) {
+                    throw new Error('No se pudo cargar la prenda.');
+                }
+
+                return response.json();
+            })
+            .then(prenda => {
+                if (!prenda) return;
+                document.getElementById('product-name').textContent = prenda.nombre;
+            })
+            .catch(error => showError(error.message));
+
+        form.addEventListener('submit', async event => {
             event.preventDefault();
             message.hidden = true;
             submitButton.disabled = true;
 
             try {
-                const response = await fetch("{% url 'api_prendas_detalles' prenda.id %}", {
+                const response = await fetch(`/api/prendas/${productId}/`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Token ${token}`,
@@ -52,9 +93,7 @@
                 });
 
                 if (response.status === 401) {
-                    sessionStorage.removeItem('authToken');
-                    sessionStorage.removeItem('authUsername');
-                    window.location.replace("{% url 'login' %}");
+                    redirectToLogin();
                     return;
                 }
 
@@ -68,8 +107,7 @@
 
                 window.location.href = "{% url 'gestion' %}";
             } catch (error) {
-                message.textContent = error.message;
-                message.hidden = false;
+                showError(error.message);
                 submitButton.disabled = false;
             }
         });
