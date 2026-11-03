@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate
 
 # REST Framework
@@ -25,17 +25,6 @@ def detalle(request, id):
     return render(request, 'boutique_app/detalle.html', {'prenda': prenda})
 
 def crear(request):
-    if request.method == 'POST':
-        Prenda.objects.create(
-            nombre=request.POST.get('nombre'),
-            descripcion=request.POST.get('descripcion'),
-            categoria=request.POST.get('categoria'),
-            talla=request.POST.get('talla'),
-            color=request.POST.get('color'),
-            precio=request.POST.get('precio'),
-            stock=request.POST.get('stock')
-        )
-        return redirect('gestion')
     return render(request, 'boutique_app/crear.html')
 
 def editar(request, id):
@@ -81,7 +70,7 @@ class LoginAPI(APIView):
 
 class CatalogoAPI(APIView):
     permission_classes = [AllowAny]
-    
+
     def get(self, request):
         prendas = Prenda.objects.all()
         datos = []
@@ -125,3 +114,106 @@ class PrendasAPI(APIView):
             })
 
         return Response(datos, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        datos = request.data
+
+        campos_obligatorios = [
+            'nombre',
+            'categoria',
+            'color',
+            'talla',
+            'precio',
+            'stock'
+        ]
+
+        faltantes = [
+            campo for campo in campos_obligatorios
+            if datos.get(campo) in [None, '']
+        ]
+
+        if faltantes:
+            return Response({
+                'error': 'Faltan campos obligatorios.',
+                'campos': faltantes
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        prenda = Prenda.objects.create(
+            nombre=datos.get('nombre'),
+            descripcion=datos.get('descripcion'),
+            categoria=datos.get('categoria'),
+            color=datos.get('color'),
+            talla=datos.get('talla'),
+            precio=datos.get('precio'),
+            stock=datos.get('stock')
+        )
+
+        return Response({
+            'mensaje': 'Prenda creada correctamente.',
+            'prenda': {
+                'id': prenda.id,
+                'nombre': prenda.nombre,
+                'descripcion': prenda.descripcion,
+                'categoria': prenda.categoria,
+                'color': prenda.color,
+                'talla': prenda.talla,
+                'precio': prenda.precio,
+                'stock': prenda.stock
+            }
+        }, status=status.HTTP_201_CREATED)
+
+    def put(self, request, id):
+        prenda = get_object_or_404(Prenda, id=id)
+        datos = request.data
+
+        campos_obligatorios = [
+            'nombre',
+            'categoria',
+            'color',
+            'talla',
+            'precio',
+            'stock'
+        ]
+
+        faltantes = [
+            campo for campo in campos_obligatorios
+            if datos.get(campo) in [None, '']
+        ]
+
+        if faltantes:
+            return Response({
+                'error': 'Faltan campos obligatorios.',
+                'campos': faltantes
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        prenda.nombre = datos.get('nombre')
+        prenda.descripcion = datos.get('descripcion')
+        prenda.categoria = datos.get('categoria')
+        prenda.color = datos.get('color')
+        prenda.talla = datos.get('talla')
+        prenda.precio = datos.get('precio')
+        prenda.stock = datos.get('stock')
+
+        prenda.save()
+
+        return Response({
+            'mensaje': 'Prenda actualizada correctamente.',
+            'prenda': {
+                'id': prenda.id,
+                'nombre': prenda.nombre,
+                'descripcion': prenda.descripcion,
+                'categoria': prenda.categoria,
+                'color': prenda.color,
+                'talla': prenda.talla,
+                'precio': prenda.precio,
+                'stock': prenda.stock
+            }
+        }, status=status.HTTP_200_OK)
+
+    def delete(self, request, id):
+        prenda = get_object_or_404(Prenda, id=id)
+        prenda.delete()
+
+        return Response({
+            'mensaje': 'Prenda eliminada correctamente.'
+        }, status=status.HTTP_200_OK)
