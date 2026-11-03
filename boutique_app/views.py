@@ -79,6 +79,29 @@ class LoginAPI(APIView):
 
         return Response({'error': 'Usuario o contraseña incorrectos.'}, status=status.HTTP_401_UNAUTHORIZED)
 
+class CatalogoAPI(APIView):
+    permission_classes = [AllowAny]
+    
+    def get(self, request):
+        prendas = Prenda.objects.all()
+        datos = []
+
+        for prenda in prendas:
+            datos.append({
+                'id': prenda.id,
+                'nombre': prenda.nombre,
+                'descripcion':prenda.descripcion,
+                'categoria':prenda.categoria,
+                'color':prenda.color,
+                'talla':prenda.talla,
+                'precio':prenda.precio,
+                'stock':prenda.stock,
+                'creado':prenda.creado,
+                'actualizado':prenda.actualizado
+            })
+
+        return Response(datos, status=status.HTTP_200_OK)
+
 class PrendasAPI(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
