@@ -21,32 +21,16 @@ def gestion(request):
     return render(request, 'boutique_app/gestion.html')
 
 def detalle(request, id):
-    prenda = Prenda.objects.get(id=id)
-    return render(request, 'boutique_app/detalle.html', {'prenda': prenda})
+    return render(request, 'boutique_app/detalle.html')
 
 def crear(request):
     return render(request, 'boutique_app/crear.html')
 
 def editar(request, id):
-    prenda = Prenda.objects.get(id=id)
-    if request.method == 'POST':
-        prenda.nombre = request.POST.get('nombre')
-        prenda.descripcion = request.POST.get('descripcion')
-        prenda.categoria = request.POST.get('categoria')
-        prenda.talla = request.POST.get('talla')
-        prenda.color = request.POST.get('color')
-        prenda.precio = request.POST.get('precio')
-        prenda.stock = request.POST.get('stock')
-        prenda.save()
-        return redirect('gestion')
-    return render(request, 'boutique_app/editar.html', {'prenda': prenda})
+    return render(request, 'boutique_app/editar.html')
 
 def eliminar(request, id):
-    prenda = Prenda.objects.get(id=id)
-    if request.method == 'POST':
-        prenda.delete()
-        return redirect('gestion')
-    return render(request, 'boutique_app/eliminar.html', {'prenda': prenda})
+    return render(request, 'boutique_app/eliminar.html')
 
 class LoginAPI(APIView):
     permission_classes = [AllowAny]
@@ -71,7 +55,23 @@ class LoginAPI(APIView):
 class CatalogoAPI(APIView):
     permission_classes = [AllowAny]
 
-    def get(self, request):
+    def get(self, request, id=None):
+        if id is not None:
+            prenda = get_object_or_404(Prenda, id=id)
+
+            return Response({
+                'id': prenda.id,
+                'nombre': prenda.nombre,
+                'descripcion': prenda.descripcion,
+                'categoria': prenda.categoria,
+                'color': prenda.color,
+                'talla': prenda.talla,
+                'precio': prenda.precio,
+                'stock': prenda.stock,
+                'creado': prenda.creado,
+                'actualizado': prenda.actualizado
+            }, status=status.HTTP_200_OK)
+
         prendas = Prenda.objects.all()
         datos = []
 
@@ -79,14 +79,14 @@ class CatalogoAPI(APIView):
             datos.append({
                 'id': prenda.id,
                 'nombre': prenda.nombre,
-                'descripcion':prenda.descripcion,
-                'categoria':prenda.categoria,
-                'color':prenda.color,
-                'talla':prenda.talla,
-                'precio':prenda.precio,
-                'stock':prenda.stock,
-                'creado':prenda.creado,
-                'actualizado':prenda.actualizado
+                'descripcion': prenda.descripcion,
+                'categoria': prenda.categoria,
+                'color': prenda.color,
+                'talla': prenda.talla,
+                'precio': prenda.precio,
+                'stock': prenda.stock,
+                'creado': prenda.creado,
+                'actualizado': prenda.actualizado
             })
 
         return Response(datos, status=status.HTTP_200_OK)
