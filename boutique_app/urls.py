@@ -11,5 +11,8 @@ urlpatterns = [
     path("eliminar/<int:id>/", views.eliminar, name="eliminar"),
 
     # API Autenticacion
-    path("api/login/", views.LoginAPI.as_view(), name='api_login')
+    path("api/login/", views.LoginAPI.as_view(), name='api_login'),
+
+    # API get
+    path("api/prendas/", views.PrendasAPI.as_view(), name='api_prendas'),
 ]
