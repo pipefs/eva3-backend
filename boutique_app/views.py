@@ -81,7 +81,7 @@ class LoginAPI(APIView):
 
 class CatalogoAPI(APIView):
     permission_classes = [AllowAny]
-    
+
     def get(self, request):
         prendas = Prenda.objects.all()
         datos = []
@@ -125,3 +125,50 @@ class PrendasAPI(APIView):
             })
 
         return Response(datos, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        datos = request.data
+
+        campos_obligatorios = [
+            'nombre',
+            'categoria',
+            'color',
+            'talla',
+            'precio',
+            'stock'
+        ]
+
+        faltantes = [
+            campo for campo in campos_obligatorios
+            if datos.get(campo) in [None, '']
+        ]
+
+        if faltantes:
+            return Response({
+                'error': 'Faltan campos obligatorios.',
+                'campos': faltantes
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        prenda = Prenda.objects.create(
+            nombre=datos.get('nombre'),
+            descripcion=datos.get('descripcion'),
+            categoria=datos.get('categoria'),
+            color=datos.get('color'),
+            talla=datos.get('talla'),
+            precio=datos.get('precio'),
+            stock=datos.get('stock')
+        )
+
+        return Response({
+            'mensaje': 'Prenda creada correctamente.',
+            'prenda': {
+                'id': prenda.id,
+                'nombre': prenda.nombre,
+                'descripcion': prenda.descripcion,
+                'categoria': prenda.categoria,
+                'color': prenda.color,
+                'talla': prenda.talla,
+                'precio': prenda.precio,
+                'stock': prenda.stock
+            }
+        }, status=status.HTTP_201_CREATED)
