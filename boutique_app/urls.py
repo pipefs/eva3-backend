@@ -14,5 +14,6 @@ urlpatterns = [
     path("api/login/", views.LoginAPI.as_view(), name='api_login'),
 
     # API get
+    path("api/catalogo/", views.CatalogoAPI.as_view(), name='api_catalogo'),
     path("api/prendas/", views.PrendasAPI.as_view(), name='api_prendas'),
 ]
