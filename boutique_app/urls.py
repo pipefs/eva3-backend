@@ -13,7 +13,10 @@ urlpatterns = [
     # API Autenticacion
     path("api/login/", views.LoginAPI.as_view(), name='api_login'),
 
-    # API get
+    # API GET
     path("api/catalogo/", views.CatalogoAPI.as_view(), name='api_catalogo'),
     path("api/prendas/", views.PrendasAPI.as_view(), name='api_prendas'),
+
+    # API POST, PUT y DELETE
+    path("api/prendas/<int:id>/", views.PrendasAPI.as_view(), name='api_prendas_detalles'),
 ]
