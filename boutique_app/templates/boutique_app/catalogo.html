@@ -1,35 +1,38 @@
-{% extends 'boutique_app/base.html' %}{% block title %}Colección | Boutique{% endblock %}{% block content %}<section
-    class="hero shell">
-    <div class="hero-copy">
-        <p class="eyebrow">Nueva colección · 2026</p>
-        <h1>Vestir bien<br><em>se siente.</em></h1>
-        <p class="hero-text">Prendas esenciales, siluetas atemporales y detalles que hablan por sí solos.</p><a
-            class="button button-dark" href="#coleccion">Explorar colección <span>→</span></a>
-    </div>
-    <div class="hero-art">
-        <div class="hero-circle"></div>
-    </div>
-</section>
-<section class="shell collection" id="coleccion">
-    <div class="section-heading">
-        <div>
-            <p class="eyebrow">Selección para ti</p>
-            <h2>La colección</h2>
-        </div><span class="result-count">{{ prendas|length }} piezas</span>
-    </div>
-    <div class="product-grid">{% for prenda in prendas %}<article class="product-card"
-            style="--garment-color: {{ prenda.color|lower }}"><a class="product-visual"
-                href="{% url 'detalle' prenda.id %}">{% include 'boutique_app/partials/prenda_imagen.html' %}<span
-                    class="category-label">{{ prenda.get_categoria_display }}</span></a>
-            <div class="product-info">
-                <div>
-                    <h3><a href="{% url 'detalle' prenda.id %}">{{ prenda.nombre }}</a></h3>
-                    <p>{{ prenda.descripcion|truncatewords:10|default:'Una pieza esencial para tu armario.' }}</p>
-                </div>
-                <div class="product-meta"><strong>${{ prenda.precio }}</strong><span>Talla {{ prenda.get_talla_display }}</span></div>
-            </div>
-        </article>{% empty %}<div class="empty-state"><span>✦</span>
-            <h2>La colección está por llegar</h2>
-            <p>No hay prendas registradas todavía.</p>
-        </div>{% endfor %}</div>
-</section>{% endblock %}
+{% extends 'boutique_app/base.html' %}
+{% block title %}Colecci&oacute;n | Boutique{% endblock %}
+{% block content %}
+<section class="hero shell"><div class="hero-copy"><p class="eyebrow">Nueva colecci&oacute;n &middot; 2026</p><h1>Vestir bien<br><em>se siente.</em></h1><p class="hero-text">Prendas esenciales, siluetas atemporales y detalles que hablan por s&iacute; solos.</p><a class="button button-dark" href="#coleccion">Explorar colecci&oacute;n <span>&rarr;</span></a></div><div class="hero-art"><div class="hero-circle"></div></div></section>
+<section class="shell collection" id="coleccion"><div class="section-heading"><div><p class="eyebrow">Selecci&oacute;n para ti</p><h2>La colecci&oacute;n</h2></div><span id="result-count" class="result-count">Cargando...</span></div><div id="product-grid" class="product-grid"><div class="empty-state"><p>Cargando colecci&oacute;n...</p></div></div></section>
+{% endblock %}
+{% block extra_js %}
+<script>
+(() => {
+    const grid = document.getElementById('product-grid');
+    const count = document.getElementById('result-count');
+    const images = {
+        polera: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=85',
+        chaleco: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=900&q=85',
+        camisa: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F1799486796.rsc.cdn77.org%2Ftemp%2F1772707324_ba9404b9f962e04910909fe0ea379e74.jpg&f=1&nofb=1',
+        chaqueta: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fhips.hearstapps.com%2Fvader-prod.s3.amazonaws.com%2F1674208826-traje-chaqueta-blanco-zara-elle-2-1674208769.jpg&f=1&nofb=1'
+    };
+    const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]));
+
+    fetch('/api/catalogo/', { headers: { 'Accept': 'application/json' } })
+        .then(response => { if (!response.ok) throw new Error(); return response.json(); })
+        .then(prendas => {
+            count.textContent = `${prendas.length} piezas`;
+            if (!prendas.length) {
+                grid.innerHTML = '<div class="empty-state"><span>&#10022;</span><h2>La colecci&oacute;n est&aacute; por llegar</h2><p>No hay prendas registradas todav&iacute;a.</p></div>';
+                return;
+            }
+            grid.innerHTML = prendas.map(prenda => {
+                const categoria = esc(prenda.categoria);
+                const nombre = esc(prenda.nombre);
+                const imagen = images[prenda.categoria] || images.chaqueta;
+                return `<article class="product-card" style="--garment-color:${esc(prenda.color)}"><a class="product-visual" href="/detalle/${prenda.id}/"><img class="product-image" src="${imagen}" alt="${nombre} - ${categoria}" loading="lazy"><span class="category-label">${categoria}</span></a><div class="product-info"><h3><a href="/detalle/${prenda.id}/">${nombre}</a></h3><p>${esc(prenda.descripcion || 'Una pieza esencial para tu armario.')}</p><div class="product-meta"><strong>$${Number(prenda.precio).toLocaleString('es-CL')}</strong><span>Talla ${esc(prenda.talla).toUpperCase()}</span></div></div></article>`;
+            }).join('');
+        })
+        .catch(() => { count.textContent = 'Error'; grid.innerHTML = '<div class="empty-state"><h2>No se pudo cargar la colecci&oacute;n</h2><p>Int&eacute;ntalo nuevamente m&aacute;s tarde.</p></div>'; });
+})();
+</script>
+{% endblock %}
