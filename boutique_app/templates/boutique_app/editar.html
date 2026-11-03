@@ -1,0 +1,69 @@
+{% extends 'boutique_app/base.html' %}
+{% block title %}Editar {{ prenda.nombre }} | Boutique{% endblock %}
+{% block content %}
+<section class="shell form-page">
+    <a class="back-link" href="{% url 'gestion' %}">&larr; Volver a gesti&oacute;n</a>
+    <div class="form-card">
+        <p class="eyebrow">Inventario &middot; ID {{ prenda.id }}</p>
+        <h1>Editar prenda</h1>
+        <p class="form-intro">Actualiza la informaci&oacute;n de {{ prenda.nombre }}.</p>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="field">
+                <label for="nombre">Nombre de la prenda</label>
+                <input id="nombre" name="nombre" type="text" value="{{ prenda.nombre }}" required>
+            </div>
+            <div class="field">
+                <label for="descripcion">Descripci&oacute;n</label>
+                <textarea id="descripcion" name="descripcion" rows="4">{{ prenda.descripcion }}</textarea>
+            </div>
+            <div class="form-grid">
+                <div class="field">
+                    <label for="categoria">Categor&iacute;a</label>
+                    <select id="categoria" name="categoria" required>
+                        <option value="polera" {% if prenda.categoria == 'polera' %}selected{% endif %}>Polera</option>
+                        <option value="chaleco" {% if prenda.categoria == 'chaleco' %}selected{% endif %}>Chaleco</option>
+                        <option value="camisa" {% if prenda.categoria == 'camisa' %}selected{% endif %}>Camisa</option>
+                        <option value="chaqueta" {% if prenda.categoria == 'chaqueta' %}selected{% endif %}>Chaqueta</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="talla">Talla</label>
+                    <select id="talla" name="talla">
+                        <option value="xs" {% if prenda.talla == 'xs' %}selected{% endif %}>XS</option>
+                        <option value="s" {% if prenda.talla == 's' %}selected{% endif %}>S</option>
+                        <option value="m" {% if prenda.talla == 'm' %}selected{% endif %}>M</option>
+                        <option value="l" {% if prenda.talla == 'l' %}selected{% endif %}>L</option>
+                        <option value="xl" {% if prenda.talla == 'xl' %}selected{% endif %}>XL</option>
+                        <option value="xxl" {% if prenda.talla == 'xxl' %}selected{% endif %}>XXL</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="color">Color</label>
+                    <select id="color" name="color">
+                        <option value="#000000" {% if prenda.color|lower == '#000000' %}selected{% endif %}>Negro</option>
+                        <option value="#FFFFFF" {% if prenda.color|lower == '#ffffff' %}selected{% endif %}>Blanco</option>
+                        <option value="#0000FF" {% if prenda.color|lower == '#0000ff' %}selected{% endif %}>Azul</option>
+                        <option value="#FF0000" {% if prenda.color|lower == '#ff0000' %}selected{% endif %}>Rojo</option>
+                        <option value="#800080" {% if prenda.color|lower == '#800080' %}selected{% endif %}>Morado</option>
+                        <option value="#FFC0CB" {% if prenda.color|lower == '#ffc0cb' %}selected{% endif %}>Rosado</option>
+                        <option value="#008000" {% if prenda.color|lower == '#008000' %}selected{% endif %}>Verde</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="precio">Precio ($)</label>
+                    <input id="precio" name="precio" type="number" min="1" step="10.00" value="{{ prenda.precio }}" required>
+                </div>
+                <div class="field">
+                    <label for="stock">Stock</label>
+                    <input id="stock" name="stock" type="number" min="0" value="{{ prenda.stock }}" required>
+                </div>
+            </div>
+            <div class="form-actions">
+                <a class="button button-light" href="{% url 'gestion' %}">Cancelar</a>
+                <button class="button button-dark" type="submit">Guardar cambios &rarr;</button>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

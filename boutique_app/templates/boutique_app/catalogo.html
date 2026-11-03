@@ -1,0 +1,35 @@
+{% extends 'boutique_app/base.html' %}{% block title %}Colección | Boutique EVA{% endblock %}{% block content %}<section
+    class="hero shell">
+    <div class="hero-copy">
+        <p class="eyebrow">Nueva colección · 2026</p>
+        <h1>Vestir bien<br><em>se siente.</em></h1>
+        <p class="hero-text">Prendas esenciales, siluetas atemporales y detalles que hablan por sí solos.</p><a
+            class="button button-dark" href="#coleccion">Explorar colección <span>→</span></a>
+    </div>
+    <div class="hero-art">
+        <div class="hero-circle"></div>
+    </div>
+</section>
+<section class="shell collection" id="coleccion">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">Selección para ti</p>
+            <h2>La colección</h2>
+        </div><span class="result-count">{{ prendas|length }} piezas</span>
+    </div>
+    <div class="product-grid">{% for prenda in prendas %}<article class="product-card"
+            style="--garment-color: {{ prenda.color|lower }}"><a class="product-visual"
+                href="{% url 'detalle' prenda.id %}">{% include 'boutique_app/partials/prenda_imagen.html' %}<span
+                    class="category-label">{{ prenda.get_categoria_display }}</span></a>
+            <div class="product-info">
+                <div>
+                    <h3><a href="{% url 'detalle' prenda.id %}">{{ prenda.nombre }}</a></h3>
+                    <p>{{ prenda.descripcion|truncatewords:10|default:'Una pieza esencial para tu armario.' }}</p>
+                </div>
+                <div class="product-meta"><strong>${{ prenda.precio }}</strong><span>Talla {{ prenda.get_talla_display }}</span></div>
+            </div>
+        </article>{% empty %}<div class="empty-state"><span>✦</span>
+            <h2>La colección está por llegar</h2>
+            <p>No hay prendas registradas todavía.</p>
+        </div>{% endfor %}</div>
+</section>{% endblock %}

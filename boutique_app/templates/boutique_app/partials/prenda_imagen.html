@@ -1,0 +1,9 @@
+{% if prenda.categoria == 'polera' %}<img class="product-image"
+    src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=85"
+    alt="{{ prenda.nombre }} - polera" loading="lazy">{% elif prenda.categoria == 'chaleco' %}<img class="product-image"
+    src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=900&q=85"
+    alt="{{ prenda.nombre }} - chaleco" loading="lazy">{% elif prenda.categoria == 'camisa' %}<img class="product-image"
+    src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F1799486796.rsc.cdn77.org%2Ftemp%2F1772707324_ba9404b9f962e04910909fe0ea379e74.jpg&f=1&nofb=1&ipt=b34f49c8d854c09385523315670438f57cee5072f83b682f8b002cbf33749bea&ipo=images"
+    alt="{{ prenda.nombre }} - camisa" loading="lazy">{% else %}<img class="product-image"
+    src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fhips.hearstapps.com%2Fvader-prod.s3.amazonaws.com%2F1674208826-traje-chaqueta-blanco-zara-elle-2-1674208769.jpg%3Fcrop%3D1xw%3A1xh%3Bcenter%2Ctop%26resize%3D980%3A*&f=1&nofb=1&ipt=43439c4c0cbccb2580510a0ea1d34d9e3b5673300b7a677ed6e6bf365c156eb2&ipo=images"
+    alt="{{ prenda.nombre }} - chaqueta" loading="lazy">{% endif %}
