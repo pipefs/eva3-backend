@@ -95,25 +95,41 @@ class PrendasAPI(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
-        prendas = Prenda.objects.all()
-        datos = []
-
-        for prenda in prendas:
-            datos.append({
-                'id': prenda.id,
-                'nombre': prenda.nombre,
-                'descripcion':prenda.descripcion,
-                'categoria':prenda.categoria,
-                'color':prenda.color,
-                'talla':prenda.talla,
-                'precio':prenda.precio,
-                'stock':prenda.stock,
-                'creado':prenda.creado,
-                'actualizado':prenda.actualizado
-            })
-
-        return Response(datos, status=status.HTTP_200_OK)
+    def get(self, request, id=None):
+            if id is not None:
+                prenda = get_object_or_404(Prenda, id=id)
+    
+                return Response({
+                    'id': prenda.id,
+                    'nombre': prenda.nombre,
+                    'descripcion': prenda.descripcion,
+                    'categoria': prenda.categoria,
+                    'color': prenda.color,
+                    'talla': prenda.talla,
+                    'precio': prenda.precio,
+                    'stock': prenda.stock,
+                    'creado': prenda.creado,
+                    'actualizado': prenda.actualizado
+                }, status=status.HTTP_200_OK)
+    
+            prendas = Prenda.objects.all()
+            datos = []
+    
+            for prenda in prendas:
+                datos.append({
+                    'id': prenda.id,
+                    'nombre': prenda.nombre,
+                    'descripcion': prenda.descripcion,
+                    'categoria': prenda.categoria,
+                    'color': prenda.color,
+                    'talla': prenda.talla,
+                    'precio': prenda.precio,
+                    'stock': prenda.stock,
+                    'creado': prenda.creado,
+                    'actualizado': prenda.actualizado
+                })
+    
+            return Response(datos, status=status.HTTP_200_OK)
 
     def post(self, request):
         datos = request.data
