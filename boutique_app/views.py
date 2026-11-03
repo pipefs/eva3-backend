@@ -5,8 +5,9 @@ from django.contrib.auth import authenticate
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authtoken.models import Token
+from rest_framework.authentication import TokenAuthentication
 
 from .models import Prenda
 
@@ -14,12 +15,10 @@ def login(request):
     return render(request, 'boutique_app/login.html')
 
 def catalogo(request):
-    prendas = Prenda.objects.all()
-    return render(request, 'boutique_app/catalogo.html', {'prendas': prendas})
+    return render(request, 'boutique_app/catalogo.html')
 
 def gestion(request):
-    prendas = Prenda.objects.all()
-    return render(request, 'boutique_app/gestion.html', {'prendas': prendas})
+    return render(request, 'boutique_app/gestion.html')
 
 def detalle(request, id):
     prenda = Prenda.objects.get(id=id)
@@ -79,3 +78,27 @@ class LoginAPI(APIView):
             }, status=status.HTTP_200_OK)
 
         return Response({'error': 'Usuario o contraseña incorrectos.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+class PrendasAPI(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        prendas = Prenda.objects.all()
+        datos = []
+
+        for prenda in prendas:
+            datos.append({
+                'id': prenda.id,
+                'nombre': prenda.nombre,
+                'descripcion':prenda.descripcion,
+                'categoria':prenda.categoria,
+                'color':prenda.color,
+                'talla':prenda.talla,
+                'precio':prenda.precio,
+                'stock':prenda.stock,
+                'creado':prenda.creado,
+                'actualizado':prenda.actualizado
+            })
+
+        return Response(datos, status=status.HTTP_200_OK)
