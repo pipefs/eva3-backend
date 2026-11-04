@@ -1,93 +1,94 @@
-{% extends 'boutique_app/base.html' %}
-
-{% block title %}Detalle | Boutique{% endblock %}
-
-{% block content %}
+{% extends 'boutique_app/base.html' %} {% block title %}Detalle | Boutique{%
+endblock %} {% block content %}
 <section class="shell detail-page">
-    <a class="back-link" href="{% url 'catalogo' %}">&larr; Volver a la colecci&oacute;n</a>
+  <a class="back-link" href="{% url 'catalogo' %}"
+    >&larr; Volver a la colecci&oacute;n</a
+  >
 
-    <div id="detail-layout" class="detail-layout">
-        <div id="detail-visual" class="detail-visual">
-            <img id="detail-image" class="product-image" alt="" loading="lazy">
-            <span id="detail-category" class="category-label"></span>
-        </div>
-
-        <div class="detail-copy">
-            <p class="eyebrow">La pieza &middot; <span id="detail-id">...</span></p>
-            <h1 id="detail-name">Cargando...</h1>
-            <p id="detail-description" class="detail-description">
-                Cargando informaci&oacute;n...
-            </p>
-
-            <div class="detail-facts">
-                <div>
-                    <small>Talla</small>
-                    <strong id="detail-size">...</strong>
-                </div>
-                <div>
-                    <small>Color</small>
-                    <strong id="detail-color">...</strong>
-                </div>
-                <div>
-                    <small>Disponibilidad</small>
-                    <strong id="detail-stock">...</strong>
-                </div>
-            </div>
-
-            <div class="detail-buy">
-                <strong id="detail-price" class="price">...</strong>
-                <a class="button button-dark" href="{% url 'catalogo' %}">
-                    Seguir explorando <span>&rarr;</span>
-                </a>
-            </div>
-        </div>
+  <div id="detail-layout" class="detail-layout">
+    <div id="detail-visual" class="detail-visual">
+      <img id="detail-image" class="product-image" alt="" loading="lazy" />
+      <span id="detail-category" class="category-label"></span>
     </div>
+
+    <div class="detail-copy">
+      <p class="eyebrow">La pieza &middot; <span id="detail-id">...</span></p>
+      <h1 id="detail-name">Cargando...</h1>
+      <p id="detail-description" class="detail-description">
+        Cargando informaci&oacute;n...
+      </p>
+
+      <div class="detail-facts">
+        <div>
+          <small>Talla</small>
+          <strong id="detail-size">...</strong>
+        </div>
+        <div>
+          <small>Color</small>
+          <strong id="detail-color">...</strong>
+        </div>
+        <div>
+          <small>Disponibilidad</small>
+          <strong id="detail-stock">...</strong>
+        </div>
+      </div>
+
+      <div class="detail-buy">
+        <strong id="detail-price" class="price">...</strong>
+        <a class="button button-dark" href="{% url 'catalogo' %}">
+          Seguir explorando <span>&rarr;</span>
+        </a>
+      </div>
+    </div>
+  </div>
 </section>
-{% endblock %}
-
-{% block extra_js %}
+{% endblock %} {% block extra_js %}
 <script>
-    (() => {
-        const productId = "{{ request.resolver_match.kwargs.id }}";
-        const detailLayout = document.getElementById('detail-layout');
+  (() => {
+    const productId = "{{ request.resolver_match.kwargs.id }}";
+    const detailLayout = document.getElementById("detail-layout");
 
-        const imageByCategory = {
-            polera: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=85',
-            chaleco: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=900&q=85',
-            camisa: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F1799486796.rsc.cdn77.org%2Ftemp%2F1772707324_ba9404b9f962e04910909fe0ea379e74.jpg&f=1&nofb=1',
-            chaqueta: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fhips.hearstapps.com%2Fvader-prod.s3.amazonaws.com%2F1674208826-traje-chaqueta-blanco-zara-elle-2-1674208769.jpg&f=1&nofb=1'
-        };
+    const imageByCategory = {
+      polera:
+        "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=85",
+      chaleco:
+        "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=900&q=85",
+      camisa:
+        "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F1799486796.rsc.cdn77.org%2Ftemp%2F1772707324_ba9404b9f962e04910909fe0ea379e74.jpg&f=1&nofb=1",
+      chaqueta:
+        "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fhips.hearstapps.com%2Fvader-prod.s3.amazonaws.com%2F1674208826-traje-chaqueta-blanco-zara-elle-2-1674208769.jpg&f=1&nofb=1",
+    };
 
-        const categoryNames = {
-            polera: 'Polera',
-            chaleco: 'Chaleco',
-            camisa: 'Camisa',
-            chaqueta: 'Chaqueta'
-        };
+    const categoryNames = {
+      polera: "Polera",
+      chaleco: "Chaleco",
+      camisa: "Camisa",
+      chaqueta: "Chaqueta",
+    };
 
-        const sizeNames = {
-            xs: 'XS',
-            s: 'S',
-            m: 'M',
-            l: 'L',
-            xl: 'XL',
-            xxl: 'XXL'
-        };
+    const sizeNames = {
+      xs: "XS",
+      s: "S",
+      m: "M",
+      l: "L",
+      xl: "XL",
+      xxl: "XXL",
+    };
 
-        const colorNames = {
-            '#000000': 'Negro',
-            '#FFFFFF': 'Blanco',
-            '#FF0000': 'Rojo',
-            '#800080': 'Morado',
-            '#FFC0CB': 'Rosado',
-            '#008000': 'Verde',
-            '#0000FF': 'Azul',
-            '#00FFFF': 'Celeste',
-            '#FFFF00': 'Amarillo'
-        };
+    const colorNames = {
+      "#000000": "Negro",
+      "#FFFFFF": "Blanco",
+      "#FF0000": "Rojo",
+      "#800080": "Morado",
+      "#FFC0CB": "Rosado",
+      "#008000": "Verde",
+      "#0000FF": "Azul",
+      "#00FFFF": "Celeste",
+      "#FFFF00": "Amarillo",
+    };
 
-        const showError = () => {
-            detailLayout.innerHTML = `
+    const showError = () => {
+      detailLayout.innerHTML = `
                 <div class="empty-state">
                     <h2>No se pudo cargar la prenda</h2>
                     <p>La prenda no existe o no est&aacute; disponible.</p>
@@ -96,43 +97,52 @@
                     </a>
                 </div>
             `;
-        };
+    };
 
-        fetch(`/api/catalogo/${productId}/`, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json'
-            }
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('No se encontr&oacute; la prenda.');
-                }
+    fetch(`/api/catalogo/${productId}/`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("No se encontr&oacute; la prenda.");
+        }
 
-                return response.json();
-            })
-            .then((prenda) => {
-                const categoria = prenda.categoria;
-                const color = String(prenda.color || '').toUpperCase();
+        return response.json();
+      })
+      .then((prenda) => {
+        const categoria = prenda.categoria;
+        const color = String(prenda.color || "").toUpperCase();
 
-                document.title = `${prenda.nombre} | Boutique`;
-                document.getElementById('detail-id').textContent = String(prenda.id).padStart(2, '0');
-                document.getElementById('detail-name').textContent = prenda.nombre;
-                document.getElementById('detail-description').textContent = prenda.descripcion || 'Una pieza diseñada para acompañarte todos los días, con una silueta limpia y una presencia atemporal.';
-                document.getElementById('detail-category').textContent = categoryNames[categoria] || categoria;
-                document.getElementById('detail-size').textContent = sizeNames[prenda.talla] || String(prenda.talla).toUpperCase();
-                document.getElementById('detail-color').textContent = colorNames[color] || color;
-                document.getElementById('detail-stock').textContent = prenda.stock > 0 ? `${prenda.stock} unidades` : 'Agotado';
-                document.getElementById('detail-price').textContent = `$${Number(prenda.precio).toLocaleString('es-CL')}`;
+        document.title = `${prenda.nombre} | Boutique`;
+        document.getElementById("detail-id").textContent = String(
+          prenda.id,
+        ).padStart(2, "0");
+        document.getElementById("detail-name").textContent = prenda.nombre;
+        document.getElementById("detail-description").textContent =
+          prenda.descripcion ||
+          "Una pieza diseñada para acompañarte todos los días, con una silueta limpia y una presencia atemporal.";
+        document.getElementById("detail-category").textContent =
+          categoryNames[categoria] || categoria;
+        document.getElementById("detail-size").textContent =
+          sizeNames[prenda.talla] || String(prenda.talla).toUpperCase();
+        document.getElementById("detail-color").textContent =
+          colorNames[color] || color;
+        document.getElementById("detail-stock").textContent =
+          prenda.stock > 0 ? `${prenda.stock} unidades` : "Agotado";
+        document.getElementById("detail-price").textContent =
+          `$${Number(prenda.precio).toLocaleString("es-CL")}`;
 
-                const visual = document.getElementById('detail-visual');
-                visual.style.setProperty('--garment-color', prenda.color);
+        const visual = document.getElementById("detail-visual");
+        visual.style.setProperty("--garment-color", prenda.color);
 
-                const image = document.getElementById('detail-image');
-                image.src = imageByCategory[categoria] || imageByCategory.chaqueta;
-                image.alt = `${prenda.nombre} - ${categoryNames[categoria] || categoria}`;
-            })
-            .catch(showError);
-    })();
+        const image = document.getElementById("detail-image");
+        image.src = imageByCategory[categoria] || imageByCategory.chaqueta;
+        image.alt = `${prenda.nombre} - ${categoryNames[categoria] || categoria}`;
+      })
+      .catch(showError);
+  })();
 </script>
 {% endblock %}

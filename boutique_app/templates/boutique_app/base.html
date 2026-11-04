@@ -1,23 +1,36 @@
 {% load static %}
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Boutique, prendas esenciales con estilo.">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Boutique, prendas esenciales con estilo."
+    />
     <title>{% block title %}Boutique{% endblock %}</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'boutique_app/css/boutique.css' %}">
-    <link rel="stylesheet" href="{% static 'boutique_app/css/tint.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'boutique_app/css/boutique.css' %}"
+    />
+    <link rel="stylesheet" href="{% static 'boutique_app/css/tint.css' %}" />
     {% block extra_head %}{% endblock %}
-</head>
-<body>
+  </head>
+  <body>
     {% include 'boutique_app/navbar.html' %}
     <main>{% block content %}{% endblock %}</main>
-    <footer class="site-footer"><div class="shell footer-inner"><span>BOUTIQUE DE ROPA</span><span>Esenciales para todos los días</span></div></footer>
+    <footer class="site-footer">
+      <div class="shell footer-inner">
+        <span>BOUTIQUE DE ROPA</span><span>Esenciales para todos los días</span>
+      </div>
+    </footer>
     <script src="{% static 'boutique_app/js/boutique.js' %}"></script>
     {% block extra_js %}{% endblock %}
-</body>
+  </body>
 </html>

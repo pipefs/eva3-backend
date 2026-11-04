@@ -1,116 +1,113 @@
-{% extends 'boutique_app/base.html' %}
-
-{% block title %}Eliminar prenda | Boutique{% endblock %}
-
-{% block content %}
+{% extends 'boutique_app/base.html' %} {% block title %}Eliminar prenda |
+Boutique{% endblock %} {% block content %}
 <section class="shell confirm-page">
-    <div class="confirm-card">
-        <span class="confirm-icon">&times;</span>
-        <p class="eyebrow">Acci&oacute;n irreversible</p>
-        <h1>&iquest;Eliminar esta prenda?</h1>
-        <p>
-            Vas a retirar <strong id="product-name">Cargando...</strong> de la colecci&oacute;n.
-            Esta acci&oacute;n no se puede deshacer.
-        </p>
+  <div class="confirm-card">
+    <span class="confirm-icon">&times;</span>
+    <p class="eyebrow">Acci&oacute;n irreversible</p>
+    <h1>&iquest;Eliminar esta prenda?</h1>
+    <p>
+      Vas a retirar <strong id="product-name">Cargando...</strong> de la
+      colecci&oacute;n. Esta acci&oacute;n no se puede deshacer.
+    </p>
 
-        <form id="delete-product-form">
-            <div class="form-actions">
-                <a class="button button-light" href="{% url 'gestion' %}">Cancelar</a>
-                <button id="delete-submit" class="button button-danger" type="submit">S&iacute;, eliminar</button>
-            </div>
-            <p id="delete-message" role="alert" hidden></p>
-        </form>
-    </div>
+    <form id="delete-product-form">
+      <div class="form-actions">
+        <a class="button button-light" href="{% url 'gestion' %}">Cancelar</a>
+        <button id="delete-submit" class="button button-danger" type="submit">
+          S&iacute;, eliminar
+        </button>
+      </div>
+      <p id="delete-message" role="alert" hidden></p>
+    </form>
+  </div>
 </section>
-{% endblock %}
-
-{% block extra_js %}
+{% endblock %} {% block extra_js %}
 <script>
-    (() => {
-        const token = sessionStorage.getItem('authToken');
-        const productId = window.location.pathname.split('/').filter(Boolean).pop();
-        const form = document.getElementById('delete-product-form');
-        const message = document.getElementById('delete-message');
-        const submitButton = document.getElementById('delete-submit');
+  (() => {
+    const token = sessionStorage.getItem("authToken");
+    const productId = window.location.pathname.split("/").filter(Boolean).pop();
+    const form = document.getElementById("delete-product-form");
+    const message = document.getElementById("delete-message");
+    const submitButton = document.getElementById("delete-submit");
 
-        const showError = (text) => {
-            message.textContent = text;
-            message.hidden = false;
-        };
+    const showError = (text) => {
+      message.textContent = text;
+      message.hidden = false;
+    };
 
-        const redirectToLogin = () => {
-            sessionStorage.removeItem('authToken');
-            sessionStorage.removeItem('authUsername');
-            window.location.replace("{% url 'login' %}");
-        };
+    const redirectToLogin = () => {
+      sessionStorage.removeItem("authToken");
+      sessionStorage.removeItem("authUsername");
+      window.location.replace("{% url 'login' %}");
+    };
 
-        if (!token || token.trim() === '') {
-            redirectToLogin();
-            return;
+    if (!token || token.trim() === "") {
+      redirectToLogin();
+      return;
+    }
+
+    fetch(`/api/prendas/${productId}/`, {
+      method: "GET",
+      headers: {
+        Authorization: `Token ${token}`,
+        Accept: "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.status === 401) {
+          redirectToLogin();
+          return null;
         }
 
-        fetch(`/api/prendas/${productId}/`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Token ${token}`,
-                'Accept': 'application/json'
-            }
-        })
-            .then(response => {
-                if (response.status === 401) {
-                    redirectToLogin();
-                    return null;
-                }
+        if (response.status === 404) {
+          throw new Error("La prenda no existe.");
+        }
 
-                if (response.status === 404) {
-                    throw new Error('La prenda no existe.');
-                }
+        if (!response.ok) {
+          throw new Error("No se pudo cargar la prenda.");
+        }
 
-                if (!response.ok) {
-                    throw new Error('No se pudo cargar la prenda.');
-                }
+        return response.json();
+      })
+      .then((prenda) => {
+        if (!prenda) return;
+        document.getElementById("product-name").textContent = prenda.nombre;
+      })
+      .catch((error) => showError(error.message));
 
-                return response.json();
-            })
-            .then(prenda => {
-                if (!prenda) return;
-                document.getElementById('product-name').textContent = prenda.nombre;
-            })
-            .catch(error => showError(error.message));
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      message.hidden = true;
+      submitButton.disabled = true;
 
-        form.addEventListener('submit', async event => {
-            event.preventDefault();
-            message.hidden = true;
-            submitButton.disabled = true;
-
-            try {
-                const response = await fetch(`/api/prendas/${productId}/`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Authorization': `Token ${token}`,
-                        'Accept': 'application/json'
-                    }
-                });
-
-                if (response.status === 401) {
-                    redirectToLogin();
-                    return;
-                }
-
-                if (response.status === 404) {
-                    throw new Error('La prenda ya no existe.');
-                }
-
-                if (!response.ok) {
-                    throw new Error('No se pudo eliminar la prenda.');
-                }
-
-                window.location.href = "{% url 'gestion' %}";
-            } catch (error) {
-                showError(error.message);
-                submitButton.disabled = false;
-            }
+      try {
+        const response = await fetch(`/api/prendas/${productId}/`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Token ${token}`,
+            Accept: "application/json",
+          },
         });
-    })();
+
+        if (response.status === 401) {
+          redirectToLogin();
+          return;
+        }
+
+        if (response.status === 404) {
+          throw new Error("La prenda ya no existe.");
+        }
+
+        if (!response.ok) {
+          throw new Error("No se pudo eliminar la prenda.");
+        }
+
+        window.location.href = "{% url 'gestion' %}";
+      } catch (error) {
+        showError(error.message);
+        submitButton.disabled = false;
+      }
+    });
+  })();
 </script>
 {% endblock %}

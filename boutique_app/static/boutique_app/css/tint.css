@@ -1,42 +1,43 @@
-/* Recolorización visual de las fotografías blancas del catálogo. */
 .product-image {
-    object-fit: cover;
-    mix-blend-mode: multiply;
-    filter: saturate(.35) contrast(.95);
-    transition: transform .5s, filter .3s;
+  object-fit: cover;
+  mix-blend-mode: multiply;
+  filter: saturate(0.35) contrast(0.95);
+  transition:
+    transform 0.5s,
+    filter 0.3s;
 }
 
 .product-card:hover .product-image {
-    filter: saturate(.8) contrast(1);
+  filter: saturate(0.8) contrast(1);
 }
 
 .product-visual::after,
 .detail-visual::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: var(--garment-color, #fff);
-    mix-blend-mode: color;
-    opacity: .5;
-    pointer-events: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--garment-color, #fff);
+  mix-blend-mode: color;
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 .product-visual,
 .detail-visual {
-    isolation: isolate;
-    padding: 0;
+  isolation: isolate;
+  padding: 0;
 }
 
 .product-visual .product-image,
 .detail-visual .product-image {
-    object-position: center center;
-    transform: scale(1.08);
+  object-position: center center;
+  transform: scale(1.08);
 }
 
 .product-card:hover .product-visual .product-image {
-    transform: scale(1.12);
+  transform: scale(1.12);
 }
 
 .table-thumb .product-image {
-    transform: none;
+  transform: none;
 }

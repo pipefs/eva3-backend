@@ -1,152 +1,182 @@
-{% extends 'boutique_app/base.html' %}
-
-{% block title %}Nueva prenda | Boutique{% endblock %}
-
-{% block content %}
+{% extends 'boutique_app/base.html' %} {% block title %}Nueva prenda |
+Boutique{% endblock %} {% block content %}
 <section class="shell form-page">
-    <a class="back-link" href="{% url 'gestion' %}">&larr; Volver a gesti&oacute;n</a>
+  <a class="back-link" href="{% url 'gestion' %}"
+    >&larr; Volver a gesti&oacute;n</a
+  >
 
-    <div class="form-card">
-        <p class="eyebrow">Inventario</p>
-        <h1>A&ntilde;adir una prenda</h1>
-        <p class="form-intro">Completa los datos para sumar una nueva pieza a la colecci&oacute;n.</p>
+  <div class="form-card">
+    <p class="eyebrow">Inventario</p>
+    <h1>A&ntilde;adir una prenda</h1>
+    <p class="form-intro">
+      Completa los datos para sumar una nueva pieza a la colecci&oacute;n.
+    </p>
 
-        <form id="create-product-form">
-            {% csrf_token %}
+    <form id="create-product-form">
+      {% csrf_token %}
 
-            <div class="field">
-                <label for="nombre">Nombre de la prenda</label>
-                <input id="nombre" name="nombre" type="text" placeholder="Ej: Polera Algod&oacute;n B&aacute;sica" required>
-            </div>
+      <div class="field">
+        <label for="nombre">Nombre de la prenda</label>
+        <input
+          id="nombre"
+          name="nombre"
+          type="text"
+          placeholder="Ej: Polera Algod&oacute;n B&aacute;sica"
+          required
+        />
+      </div>
 
-            <div class="field">
-                <label for="descripcion">Descripci&oacute;n</label>
-                <textarea id="descripcion" name="descripcion" rows="4" placeholder="Material, corte y detalles..."></textarea>
-            </div>
+      <div class="field">
+        <label for="descripcion">Descripci&oacute;n</label>
+        <textarea
+          id="descripcion"
+          name="descripcion"
+          rows="4"
+          placeholder="Material, corte y detalles..."
+        ></textarea>
+      </div>
 
-            <div class="form-grid">
-                <div class="field">
-                    <label for="categoria">Categor&iacute;a</label>
-                    <select id="categoria" name="categoria" required>
-                        <option value="polera">Polera</option>
-                        <option value="chaleco">Chaleco</option>
-                        <option value="camisa">Camisa</option>
-                        <option value="chaqueta">Chaqueta</option>
-                    </select>
-                </div>
+      <div class="form-grid">
+        <div class="field">
+          <label for="categoria">Categor&iacute;a</label>
+          <select id="categoria" name="categoria" required>
+            <option value="polera">Polera</option>
+            <option value="chaleco">Chaleco</option>
+            <option value="camisa">Camisa</option>
+            <option value="chaqueta">Chaqueta</option>
+          </select>
+        </div>
 
-                <div class="field">
-                    <label for="talla">Talla</label>
-                    <select id="talla" name="talla" required>
-                        <option value="xs">XS</option>
-                        <option value="s">S</option>
-                        <option value="m" selected>M</option>
-                        <option value="l">L</option>
-                        <option value="xl">XL</option>
-                        <option value="xxl">XXL</option>
-                    </select>
-                </div>
+        <div class="field">
+          <label for="talla">Talla</label>
+          <select id="talla" name="talla" required>
+            <option value="xs">XS</option>
+            <option value="s">S</option>
+            <option value="m" selected>M</option>
+            <option value="l">L</option>
+            <option value="xl">XL</option>
+            <option value="xxl">XXL</option>
+          </select>
+        </div>
 
-                <div class="field">
-                    <label for="color">Color</label>
-                    <select id="color" name="color" required>
-                        <option value="#000000">Negro</option>
-                        <option value="#FFFFFF" selected>Blanco</option>
-                        <option value="#0000FF">Azul</option>
-                        <option value="#FF0000">Rojo</option>
-                        <option value="#800080">Morado</option>
-                        <option value="#FFC0CB">Rosado</option>
-                        <option value="#008000">Verde</option>
-                    </select>
-                </div>
+        <div class="field">
+          <label for="color">Color</label>
+          <select id="color" name="color" required>
+            <option value="#000000">Negro</option>
+            <option value="#FFFFFF" selected>Blanco</option>
+            <option value="#0000FF">Azul</option>
+            <option value="#FF0000">Rojo</option>
+            <option value="#800080">Morado</option>
+            <option value="#FFC0CB">Rosado</option>
+            <option value="#008000">Verde</option>
+          </select>
+        </div>
 
-                <div class="field">
-                    <label for="precio">Precio ($)</label>
-                    <input id="precio" name="precio" type="number" min="1" step="10.00" required>
-                </div>
+        <div class="field">
+          <label for="precio">Precio ($)</label>
+          <input
+            id="precio"
+            name="precio"
+            type="number"
+            min="1"
+            step="0.01"
+            required
+          />
+        </div>
 
-                <div class="field">
-                    <label for="stock">Stock</label>
-                    <input id="stock" name="stock" type="number" min="0" value="1" required>
-                </div>
-            </div>
+        <div class="field">
+          <label for="stock">Stock</label>
+          <input
+            id="stock"
+            name="stock"
+            type="number"
+            min="0"
+            value="1"
+            required
+          />
+        </div>
+      </div>
 
-            <div class="form-actions">
-                <a class="button button-light" href="{% url 'gestion' %}">Cancelar</a>
-                <button class="button button-dark" type="submit">Guardar prenda <span>&rarr;</span></button>
-            </div>
+      <div class="form-actions">
+        <a class="button button-light" href="{% url 'gestion' %}">Cancelar</a>
+        <button class="button button-dark" type="submit">
+          Guardar prenda <span>&rarr;</span>
+        </button>
+      </div>
 
-            <p id="form-message" role="alert" hidden></p>
-        </form>
-    </div>
+      <p id="form-message" role="alert" hidden></p>
+    </form>
+  </div>
 </section>
-{% endblock %}
-
-{% block extra_js %}
+{% endblock %} {% block extra_js %}
 <script>
-    (() => {
-        const token = sessionStorage.getItem('authToken');
-        const form = document.getElementById('create-product-form');
-        const message = document.getElementById('form-message');
-        const submitButton = form.querySelector('button[type="submit"]');
+  (() => {
+    const token = sessionStorage.getItem("authToken");
+    const form = document.getElementById("create-product-form");
+    const message = document.getElementById("form-message");
+    const submitButton = form.querySelector('button[type="submit"]');
 
-        if (!token || token.trim() === '') {
-            window.location.replace("{% url 'login' %}");
-            return;
+    if (!token || token.trim() === "") {
+      window.location.replace("{% url 'login' %}");
+      return;
+    }
+
+    const showError = (text) => {
+      message.textContent = text;
+      message.hidden = false;
+    };
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      message.hidden = true;
+      submitButton.disabled = true;
+
+      const formData = new FormData(form);
+      const datos = {
+        nombre: formData.get("nombre"),
+        descripcion: formData.get("descripcion"),
+        categoria: formData.get("categoria"),
+        color: formData.get("color"),
+        talla: formData.get("talla"),
+        precio: formData.get("precio"),
+        stock: formData.get("stock"),
+      };
+
+      try {
+        const response = await fetch("{% url 'api_prendas' %}", {
+          method: "POST",
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(datos),
+        });
+
+        if (response.status === 401) {
+          sessionStorage.removeItem("authToken");
+          sessionStorage.removeItem("authUsername");
+          window.location.replace("{% url 'login' %}");
+          return;
         }
 
-        const showError = (text) => {
-            message.textContent = text;
-            message.hidden = false;
-        };
+        const data = await response.json();
 
-        form.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            message.hidden = true;
-            submitButton.disabled = true;
+        if (!response.ok) {
+          const campos = data.campos ? ` (${data.campos.join(", ")})` : "";
+          throw new Error(
+            (data.error || "No se pudo crear la prenda.") + campos,
+          );
+        }
 
-            const formData = new FormData(form);
-            const datos = {
-                nombre: formData.get('nombre'),
-                descripcion: formData.get('descripcion'),
-                categoria: formData.get('categoria'),
-                color: formData.get('color'),
-                talla: formData.get('talla'),
-                precio: formData.get('precio'),
-                stock: formData.get('stock')
-            };
-
-            try {
-                const response = await fetch("{% url 'api_prendas' %}", {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Token ${token}`,
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify(datos)
-                });
-
-                if (response.status === 401) {
-                    sessionStorage.removeItem('authToken');
-                    sessionStorage.removeItem('authUsername');
-                    window.location.replace("{% url 'login' %}");
-                    return;
-                }
-
-                const data = await response.json();
-
-                if (!response.ok) {
-                    const campos = data.campos ? ` (${data.campos.join(', ')})` : '';
-                    throw new Error((data.error || 'No se pudo crear la prenda.') + campos);
-                }
-
-                window.location.href = "{% url 'gestion' %}";
-            } catch (error) {
-                showError(error.message || 'Ocurri&oacute; un error de conexi&oacute;n.');
-                submitButton.disabled = false;
-            }
-        });
-    })();
+        window.location.href = "{% url 'gestion' %}";
+      } catch (error) {
+        showError(
+          error.message || "Ocurri&oacute; un error de conexi&oacute;n.",
+        );
+        submitButton.disabled = false;
+      }
+    });
+  })();
 </script>
 {% endblock %}
