@@ -111,7 +111,7 @@ Boutique{% endblock %} {% block content %}
 {% endblock %} {% block extra_js %}
 <script>
   (() => {
-    const token = sessionStorage.getItem("authToken");
+    const token = sessionStorage.getItem("token");
     const form = document.getElementById("create-product-form");
     const message = document.getElementById("form-message");
     const submitButton = form.querySelector('button[type="submit"]');
@@ -154,8 +154,7 @@ Boutique{% endblock %} {% block content %}
         });
 
         if (response.status === 401) {
-          sessionStorage.removeItem("authToken");
-          sessionStorage.removeItem("authUsername");
+          sessionStorage.removeItem("token");
           window.location.replace("{% url 'login' %}");
           return;
         }

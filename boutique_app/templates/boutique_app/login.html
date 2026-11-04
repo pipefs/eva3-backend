@@ -80,11 +80,7 @@ Boutique{% endblock %} {% block content %}
           throw new Error(data.error || "No se pudo iniciar sesi&oacute;n.");
         }
 
-        sessionStorage.setItem("authToken", data.token);
-        sessionStorage.setItem(
-          "authUsername",
-          data.usuario || formData.get("username"),
-        );
+        sessionStorage.setItem("token", data.token);
         window.location.href = '{% url "gestion" %}';
       } catch (error) {
         showMessage(

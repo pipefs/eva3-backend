@@ -93,7 +93,7 @@ Boutique{% endblock %} {% block content %}
 {% endblock %} {% block extra_js %}
 <script>
   (() => {
-    const token = sessionStorage.getItem("authToken");
+    const token = sessionStorage.getItem("token");
     const productId = window.location.pathname.split("/").filter(Boolean).pop();
     const form = document.getElementById("edit-product-form");
     const message = document.getElementById("edit-message");
@@ -105,8 +105,7 @@ Boutique{% endblock %} {% block content %}
     };
 
     const redirectToLogin = () => {
-      sessionStorage.removeItem("authToken");
-      sessionStorage.removeItem("authUsername");
+      sessionStorage.removeItem("token");
       window.location.replace("{% url 'login' %}");
     };
 

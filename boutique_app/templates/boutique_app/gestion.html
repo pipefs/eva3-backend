@@ -36,7 +36,7 @@ Boutique{% endblock %} {% block content %}
 {% endblock %} {% block extra_js %}
 <script>
   (() => {
-    const token = sessionStorage.getItem("authToken");
+    const token = sessionStorage.getItem("token");
     const body = document.getElementById("inventory-body");
     if (!token || token.trim() === "") {
       window.location.replace("{% url 'login' %}");
@@ -59,8 +59,7 @@ Boutique{% endblock %} {% block content %}
     })
       .then((response) => {
         if (response.status === 401) {
-          sessionStorage.removeItem("authToken");
-          sessionStorage.removeItem("authUsername");
+          sessionStorage.removeItem("token");
           window.location.replace("{% url 'login' %}");
           return null;
         }
