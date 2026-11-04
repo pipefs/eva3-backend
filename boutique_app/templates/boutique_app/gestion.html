@@ -1,14 +1,14 @@
-{% extends 'boutique_app/base.html' %} {% block title %}Gesti&oacute;n |
+{% extends 'boutique_app/base.html' %} {% block title %}Gestión |
 Boutique{% endblock %} {% block content %}
 <section class="shell admin-page">
   <div class="page-heading">
     <div>
       <p class="eyebrow">Panel interno</p>
-      <h1>Gesti&oacute;n de prendas</h1>
+      <h1>Gestión de prendas</h1>
       <p>Controla el inventario de tu boutique.</p>
     </div>
     <a class="button button-dark" href="{% url 'crear' %}"
-      >+ A&ntilde;adir prenda</a
+      >+ Añadir prenda</a
     >
   </div>
   <div class="inventory-card">
@@ -17,7 +17,7 @@ Boutique{% endblock %} {% block content %}
         <thead>
           <tr>
             <th>Prenda</th>
-            <th>Categor&iacute;a</th>
+            <th>Categoría</th>
             <th>Talla</th>
             <th>Precio</th>
             <th>Stock</th>

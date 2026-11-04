@@ -1,8 +1,7 @@
-{% extends 'boutique_app/base.html' %} {% block title %}Detalle | Boutique{%
-endblock %} {% block content %}
+{% extends 'boutique_app/base.html' %} {% block title %}Detalle | Boutique{% endblock %} {% block content %}
 <section class="shell detail-page">
   <a class="back-link" href="{% url 'catalogo' %}"
-    >&larr; Volver a la colecci&oacute;n</a
+    >&larr; Volver a la colección</a
   >
 
   <div id="detail-layout" class="detail-layout">
@@ -15,7 +14,7 @@ endblock %} {% block content %}
       <p class="eyebrow">La pieza &middot; <span id="detail-id">...</span></p>
       <h1 id="detail-name">Cargando...</h1>
       <p id="detail-description" class="detail-description">
-        Cargando informaci&oacute;n...
+        Cargando información...
       </p>
 
       <div class="detail-facts">
@@ -91,9 +90,9 @@ endblock %} {% block content %}
       detailLayout.innerHTML = `
                 <div class="empty-state">
                     <h2>No se pudo cargar la prenda</h2>
-                    <p>La prenda no existe o no est&aacute; disponible.</p>
+                    <p>La prenda no existe o no está disponible.</p>
                     <a class="button button-dark" href="{% url 'catalogo' %}">
-                        Volver al cat&aacute;logo
+                        Volver al catálogo
                     </a>
                 </div>
             `;
@@ -107,7 +106,7 @@ endblock %} {% block content %}
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error("No se encontr&oacute; la prenda.");
+          throw new Error("No se encontró la prenda.");
         }
 
         return response.json();

@@ -1,15 +1,15 @@
-{% extends 'boutique_app/base.html' %} {% block title %}Colecci&oacute;n |
+{% extends 'boutique_app/base.html' %} {% block title %}Colección |
 Boutique{% endblock %} {% block content %}
 <section class="hero shell">
   <div class="hero-copy">
-    <p class="eyebrow">Nueva colecci&oacute;n &middot; 2026</p>
+    <p class="eyebrow">Nueva colección &middot; 2026</p>
     <h1>Vestir bien<br /><em>se siente.</em></h1>
     <p class="hero-text">
       Prendas esenciales, siluetas atemporales y detalles que hablan por
-      s&iacute; solos.
+      sí solos.
     </p>
     <a class="button button-dark" href="#coleccion"
-      >Explorar colecci&oacute;n <span>&rarr;</span></a
+      >Explorar colección <span>&rarr;</span></a
     >
   </div>
   <div class="hero-art"><div class="hero-circle"></div></div>
@@ -17,13 +17,13 @@ Boutique{% endblock %} {% block content %}
 <section class="shell collection" id="coleccion">
   <div class="section-heading">
     <div>
-      <p class="eyebrow">Selecci&oacute;n para ti</p>
-      <h2>La colecci&oacute;n</h2>
+      <p class="eyebrow">Selección para ti</p>
+      <h2>La colección</h2>
     </div>
     <span id="result-count" class="result-count">Cargando...</span>
   </div>
   <div id="product-grid" class="product-grid">
-    <div class="empty-state"><p>Cargando colecci&oacute;n...</p></div>
+    <div class="empty-state"><p>Cargando colección...</p></div>
   </div>
 </section>
 {% endblock %} {% block extra_js %}
@@ -63,7 +63,7 @@ Boutique{% endblock %} {% block content %}
         count.textContent = `${prendas.length} piezas`;
         if (!prendas.length) {
           grid.innerHTML =
-            '<div class="empty-state"><span>&#10022;</span><h2>La colecci&oacute;n est&aacute; por llegar</h2><p>No hay prendas registradas todav&iacute;a.</p></div>';
+            '<div class="empty-state"><span>&#10022;</span><h2>La colección está por llegar</h2><p>No hay prendas registradas todavía.</p></div>';
           return;
         }
         grid.innerHTML = prendas
@@ -78,7 +78,7 @@ Boutique{% endblock %} {% block content %}
       .catch(() => {
         count.textContent = "Error";
         grid.innerHTML =
-          '<div class="empty-state"><h2>No se pudo cargar la colecci&oacute;n</h2><p>Int&eacute;ntalo nuevamente m&aacute;s tarde.</p></div>';
+          '<div class="empty-state"><h2>No se pudo cargar la colección</h2><p>Inténtalo nuevamente más tarde.</p></div>';
       });
   })();
 </script>

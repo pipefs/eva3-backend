@@ -1,9 +1,7 @@
 {% extends 'boutique_app/base.html' %} {% block title %}Editar prenda |
 Boutique{% endblock %} {% block content %}
 <section class="shell form-page">
-  <a class="back-link" href="{% url 'gestion' %}"
-    >&larr; Volver a gesti&oacute;n</a
-  >
+  <a class="back-link" href="{% url 'gestion' %}">&larr; Volver a gestión</a>
 
   <div class="form-card">
     <p class="eyebrow">
@@ -11,7 +9,7 @@ Boutique{% endblock %} {% block content %}
     </p>
     <h1>Editar prenda</h1>
     <p class="form-intro">
-      Actualiza la informaci&oacute;n de la prenda seleccionada.
+      Actualiza la información de la prenda seleccionada.
     </p>
 
     <form id="edit-product-form">
@@ -21,13 +19,13 @@ Boutique{% endblock %} {% block content %}
       </div>
 
       <div class="field">
-        <label for="descripcion">Descripci&oacute;n</label>
+        <label for="descripcion">Descripción</label>
         <textarea id="descripcion" name="descripcion" rows="4"></textarea>
       </div>
 
       <div class="form-grid">
         <div class="field">
-          <label for="categoria">Categor&iacute;a</label>
+          <label for="categoria">Categoría</label>
           <select id="categoria" name="categoria" required>
             <option value="polera">Polera</option>
             <option value="chaleco">Chaleco</option>

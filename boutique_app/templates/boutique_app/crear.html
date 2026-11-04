@@ -1,15 +1,13 @@
 {% extends 'boutique_app/base.html' %} {% block title %}Nueva prenda |
 Boutique{% endblock %} {% block content %}
 <section class="shell form-page">
-  <a class="back-link" href="{% url 'gestion' %}"
-    >&larr; Volver a gesti&oacute;n</a
-  >
+  <a class="back-link" href="{% url 'gestion' %}">&larr; Volver a gestión</a>
 
   <div class="form-card">
     <p class="eyebrow">Inventario</p>
-    <h1>A&ntilde;adir una prenda</h1>
+    <h1>Añadir una prenda</h1>
     <p class="form-intro">
-      Completa los datos para sumar una nueva pieza a la colecci&oacute;n.
+      Completa los datos para sumar una nueva pieza a la colección.
     </p>
 
     <form id="create-product-form">
@@ -21,13 +19,13 @@ Boutique{% endblock %} {% block content %}
           id="nombre"
           name="nombre"
           type="text"
-          placeholder="Ej: Polera Algod&oacute;n B&aacute;sica"
+          placeholder="Ej: Polera Algodón Básica"
           required
         />
       </div>
 
       <div class="field">
-        <label for="descripcion">Descripci&oacute;n</label>
+        <label for="descripcion">Descripción</label>
         <textarea
           id="descripcion"
           name="descripcion"
@@ -38,7 +36,7 @@ Boutique{% endblock %} {% block content %}
 
       <div class="form-grid">
         <div class="field">
-          <label for="categoria">Categor&iacute;a</label>
+          <label for="categoria">Categoría</label>
           <select id="categoria" name="categoria" required>
             <option value="polera">Polera</option>
             <option value="chaleco">Chaleco</option>
@@ -170,9 +168,7 @@ Boutique{% endblock %} {% block content %}
 
         window.location.href = "{% url 'gestion' %}";
       } catch (error) {
-        showError(
-          error.message || "Ocurri&oacute; un error de conexi&oacute;n.",
-        );
+        showError(error.message || "Ocurrió un error de conexión.");
         submitButton.disabled = false;
       }
     });
